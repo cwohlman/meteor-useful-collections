@@ -63,13 +63,13 @@ Once you've created a UsefulCollection you have access to all the methods below 
 
   helpers will throw an error if the key exists on either the Item or the Collection. In a future version we might want to add config options to define the behavior in these cases, for example we might allow passing a flag to signal only setting the helper on the item, or the collection
 
-- `UsefulCollection.prototype.audit()` - Intializes the default audit function which:
+- `UsefulCollection.prototype.audit()` - Initializes the default audit function which:
     + Records dateCreated and dateModified on every document inserted or updated
     + Logs userId and dateCreated for every document inserted
     + Logs userId, dateModified, and fieldNames for every document modified
     + Logs userId and dateRemoved, and lastState for every document removed
 - `UsefulCollection.prototype.audit("*")` - Initializes the default audit function, but records documents inserted and modifier objects for updates.
-    + Overrides `audit()`, that is, if called either before or after `audit()` will allways record more info.
+    + Overrides `audit()`, that is, if called either before or after `audit()` will always record more info.
     + Pass true for the second argument to throw an error in the above case.
 - `UsefulCollection.prototype.audit(fieldName, fn)` - Calls fn and stores the result on inserted and updated documents as property fieldName.
     + Works regardless of whether `audit()` or `audit("*")` have been called.

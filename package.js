@@ -22,7 +22,8 @@ Package.onTest(function(api) {
   api.use('cwohlman:useful-collections');
 
   api.addFiles('tests/init.js');
-  
+
   api.addFiles('tests/helpers.js');
+  api.addFiles('tests/mock.js');
 
 });
