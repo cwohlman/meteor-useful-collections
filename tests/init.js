@@ -1,4 +1,4 @@
-var _books = new Mongo.Collection('books');
+_books = new Mongo.Collection('books');
 
 if (Meteor.isServer) {
   if (!_books.find().count()) {
