@@ -25,5 +25,6 @@ Package.onTest(function(api) {
 
   api.addFiles('tests/helpers.js');
   api.addFiles('tests/mock.js');
+  api.addFiles('tests/where.js');
 
 });

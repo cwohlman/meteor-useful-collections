@@ -18,6 +18,17 @@ if (Meteor.isServer) {
   Meteor.publish('books', function () {
     return _books.find();
   });
+  _books.allow({
+    insert: function (userId, doc) {
+      return true;
+    },
+    update: function (userId, doc, fields, modifier) {
+      return true;
+    },
+    remove: function (userId, doc) {
+      return true;
+    }
+  });
 } else {
   Meteor.subscribe('books');
 }

@@ -11,7 +11,7 @@ Features
 =====================
 1. Simple, server-side-only collection hooks.
 2. Simple, prototype based collection helpers.
-3. Simple, extendable loging of collection updates.
+3. Simple, extendable logging of collection updates.
 4. Chainable find queries
 
 The UsefulCollection object
@@ -91,7 +91,7 @@ There's an important difference between `audit(fieldName, fn)` and `log(fieldNam
             Collection.where({kind: 'public'}).update({overdue: true}, {$set: {
                 problem: true
             }})
-            // is equivilent to
+            // is equivalent to
             Collection.update({
                 kind: 'public'
                 , overdue: true
@@ -102,7 +102,20 @@ There's an important difference between `audit(fieldName, fn)` and `log(fieldNam
             });
         ```
     + This command is chainable, it returns a new instance of UsefulCollection
+    + This command uses the documentConstructor from the parent instance of UsefulCollection, it is not recommended that you call .helpers on narrowed collections.
 
+- `UsefulCollection.prototype.publish(name, whereFn)` - Publishes a meteor subscription called `name` which accepts some query options from the client.
+    + If you subscribe to `name` all your arguments will be passed to the `whereFn`
+    + The `whereFn` should return `this.where({}, {})` to narrow the collection however desired, e.g. `function (name) {return this.where({name: name})}`
+    + If you subscribe to `name` you can pass an optional last argument with options for your query, the following options are accepted: 
+        * `where` - Pass this to filter the result set
+        * `sort` - Pass to sort the result set (remember server side sorting has no effect on the order of client side documents)
+        * `limit` and `skip` - Pass to paginate the data
+        * `fields` - Pass to limit the fields returned by the data.
+    + All the above options work by passing them through to the underlying collection find method, transform is not supported because we perform the find on the server.
+    + In the future this command will be valid on the client and we'll support another command `UsefulCollection.prototype.get(subscriptionName)` which returns only those documents which would have been returned by a particular subscription. (We'll be able to support the transform option as well)
+- `UsefulCollection.prototype.publishAs(name)` - This method is available on both the client and the server, on the server it calls `this.publish(name, function () {return this;}`, on the client it records the name on the collection `this.defaultSubscription = name`
+- `UsefulCollection.prototype.subscribe()` - Calls `Meteor.subscribe(this.defaultSubscription)`
 - `UsefulCollection.prototype.mock(insert, update, find)` - Performs a mock operation against the db (using an unbacked local collection) allowing you to examine what an item will look like after an update operation.
     + Each argument can be an array, an object, or null/undefined.
     + When you pass an array we pass those arguments to the specified function.
