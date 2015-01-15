@@ -103,12 +103,13 @@ There's an important difference between `audit(fieldName, fn)` and `log(fieldNam
         ```
     + This command is chainable, it returns a new instance of UsefulCollection
     + This command uses the documentConstructor from the parent instance of UsefulCollection, it is not recommended that you call .helpers on narrowed collections.
+    + We run a shallow extend against both findQuery and findOptions. So this will not work `Collection.where({age: {$exists: true}}).where({age: {$gt: 21}})`. We should probably throw an exception in this case, but currently do not.
 
 - `UsefulCollection.prototype.publish(name, whereFn)` - Publishes a meteor subscription called `name` which accepts some query options from the client.
     + If you subscribe to `name` all your arguments will be passed to the `whereFn`
     + The `whereFn` should return `this.where({}, {})` to narrow the collection however desired, e.g. `function (name) {return this.where({name: name})}`
     + If you subscribe to `name` you can pass an optional last argument with options for your query, the following options are accepted: 
-        * `where` - Pass this to filter the result set
+        * `filter` - Pass this to filter the result set, takes a mongo query object
         * `sort` - Pass to sort the result set (remember server side sorting has no effect on the order of client side documents)
         * `limit` and `skip` - Pass to paginate the data
         * `fields` - Pass to limit the fields returned by the data.

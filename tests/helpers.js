@@ -19,6 +19,16 @@ Tinytest.add('UsefulCollections - helpers - custom constructor', function (test)
   test.instanceOf(Books.findOne(), Book);
 });
 
+Tinytest.add('UsefulCollections - helpers - setPrototype', function (test) {
+  var Books = new UsefulCollection(_books);
+  
+  var Book = function () {};
+  Books.setPrototype(Book);
+
+  test.instanceOf(Books.findOne(), Book);
+  test.instanceOf(Books.findOne(), UsefulDocument);
+});
+
 Tinytest.add('UsefulCollections - helpers - helpers extends constructor', function (test) {
   var Books = new UsefulCollection(_books);
   Books.helpers({

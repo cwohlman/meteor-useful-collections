@@ -14,6 +14,7 @@ Package.onUse(function(api) {
   api.addFiles('lib/usefulCollections.js');
 
   api.export('UsefulCollection');
+  api.export('UsefulDocument');
 });
 
 Package.onTest(function(api) {
