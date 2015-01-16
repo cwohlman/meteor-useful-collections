@@ -4,26 +4,32 @@ if (Meteor.isServer) Meteor.publish('logs', function () {return log.find();});
 if (Meteor.isClient) Meteor.subscribe('logs');
 
 var original = _books._collection.insert;
+var Books = new UsefulCollection(_books);
 
 if (Meteor.isServer) {
   log.remove({});
 
-  console.log('is local collection', _books._collection)
+  // Books.hooks({
+  //   "before.insert": function (doc) {
+  //     log.insert({
+  //       method: "insert"
+  //       , where: "before"
+  //       , logField: doc.logField
+  //     });
+  //   }
+  // });
 
-  _books._collection.insert = function (doc) {
-    console.log('logging', doc.logField);
-
-    if (this !== log)
-      log.insert({logField: doc.logField});
-
-    return original.apply(this, arguments);
-  };
+  UsefulCollection.hook(Books, "before.insert", function (doc) {
+    log.insert({
+      logField: doc.logField
+    });
+  });
 }
 
 if (Meteor.isClient) {
-  Tinytest.addAsync('test test', function (test, done) {
-    _books.insert({logField: "logged"}, function () {
-      test.equal(log.find({logField: "logged"}).count(), 1);
+  Tinytest.addAsync('UsefulCollections - hooks - before insert', function (test, done) {
+    Books.insert({logField: "a"}, function () {
+      test.equal(log.find({logField: "a"}).count(), 1);
       done();
     });
   });

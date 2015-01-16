@@ -28,6 +28,8 @@ We want to implement all these features with a minimum of invasive code so we at
     // etc.
 ```
 
+**However...** we can't implement server-side hooks this way or they wouldn't get called when the client performs inserts/updates/removes, so we do (lazily) monkey patch the different modifier methods on a collection.
+
 This constructor is easy to use, just call it the same way you would call Mongo.Collection, or you can pass an existing collection as the first argument and we'll wrap that.
 
 **Watch-out**
@@ -61,7 +63,7 @@ Once you've created a UsefulCollection you have access to all the methods below 
     }
 ```
 
-  helpers will throw an error if the key exists on either the Item or the Collection. In a future version we might want to add config options to define the behavior in these cases, for example we might allow passing a flag to signal only setting the helper on the item, or the collection
+  helpers will throw an error if the key exists on the Collection. In a future version we might want to add config options to define the behavior in these cases, for example we might allow passing a flag to signal only setting the helper on the item, or the collection
 
 - `UsefulCollection.prototype.audit()` - Initializes the default audit function which:
     + Records dateCreated and dateModified on every document inserted or updated
