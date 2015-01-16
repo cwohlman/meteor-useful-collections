@@ -20,6 +20,7 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('mongo');
+  api.use('underscore');
   api.use('cwohlman:useful-collections');
 
   api.addFiles('tests/init.js');
@@ -27,5 +28,6 @@ Package.onTest(function(api) {
   api.addFiles('tests/helpers.js');
   api.addFiles('tests/mock.js');
   api.addFiles('tests/where.js');
+  api.addFiles('tests/hooks.js');
 
 });
