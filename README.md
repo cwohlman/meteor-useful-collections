@@ -32,11 +32,6 @@ We want to implement all these features with a minimum of invasive code so we at
 
 This constructor is easy to use, just call it the same way you would call Mongo.Collection, or you can pass an existing collection as the first argument and we'll wrap that.
 
-**Watch-out**
-If you don't construct your Collection using UsefulCollection we can't guarantee that all calls to update the collection will trigger the appropriate hooks, because of this we will log a warning if you try to use a before hook on a collection we did not initialize for you.
-
-In the future we might want to monkey patch the Collection prototype to fix this issue.
-
 The UsefulCollection prototype
 ======================
 Once you've created a UsefulCollection you have access to all the methods below which we define on the prototype. You can also feel free to add your own methods to the UsefulCollection prototype.

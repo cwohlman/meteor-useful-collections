@@ -149,4 +149,32 @@ if (Meteor.isServer) {
       done();
     });
   });
+  Tinytest.addAsync('UsefulCollections - hooks - patches users collection', function (test, done) {
+    var original = _books._collection.insert;
+    var patch;
+    logField = Random.id();
+    var Users = new UsefulCollection(Meteor.users);
+    Users.hooks({
+      "before.insert": function (doc) {
+        log.insert({
+          logField: doc.logField
+          , method: "users"
+          , where: "before"
+        });
+      }
+      , "after.insert": function (doc) {
+        log.insert({
+          logField: doc.logField
+          , method: "users"
+          , where: "after"
+        });
+      }
+    });
+    Users.insert({logField: logField}, function () {
+      test.equal(log.find({logField: logField, method: "users", where: "before"}).count(), 1);
+      test.equal(log.find({logField: logField, method: "users", where: "after"}).count(), 1);
+      Users.remove({logField: logField});
+      done();
+    });
+  });
 }

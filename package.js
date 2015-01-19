@@ -21,6 +21,7 @@ Package.onTest(function(api) {
   api.use('tinytest');
   api.use('mongo');
   api.use('underscore');
+  api.use('accounts-base');
   api.use('cwohlman:useful-collections');
 
   api.addFiles('tests/init.js');
