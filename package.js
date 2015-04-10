@@ -30,5 +30,6 @@ Package.onTest(function(api) {
   api.addFiles('tests/mock.js');
   api.addFiles('tests/where.js');
   api.addFiles('tests/hooks.js');
+  api.addFiles('tests/audit.js');
 
 });
