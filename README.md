@@ -1,3 +1,5 @@
+*This package is not designed for you to use - it's a collection of experiments*
+
 Useful Collections
 =====================
 
